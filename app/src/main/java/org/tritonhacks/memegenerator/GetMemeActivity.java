@@ -17,14 +17,21 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 public class GetMemeActivity extends AppCompatActivity {
 
     final static String URL = "https://meme-api.herokuapp.com/gimme/cleanmemes/100";
+    final static String POSTLINK_KEY = "postLink";
+    final static String SUBREDDIT_KEY = "subreddit";
+    final static String TITLE_KEY = "title";
+    final static String URL_KEY = "url";
 
     private static JsonObject randomMeme;
-    private static JsonArray memeList;
-    private ImageView imgV_Meme;
+    private ArrayList<RandomMeme> memeList;
     private String memeUrl;
+
+    private ImageView imgV_Meme;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -32,7 +39,10 @@ public class GetMemeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_get_meme);
 
         initViews();
-        getMeme();
+
+        if(savedInstanceState == null) {
+            getMeme();
+        }
     }
 
     /**
@@ -41,6 +51,7 @@ public class GetMemeActivity extends AppCompatActivity {
     private void initViews() {
         final Button getAnotherMeme = findViewById(R.id.btn_get_another_meme);
         getAnotherMeme.setOnClickListener(v -> getMeme());
+
         imgV_Meme = findViewById(R.id.imgV_meme);
     }
 
@@ -62,7 +73,7 @@ public class GetMemeActivity extends AppCompatActivity {
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putString("url", memeUrl);
+        outState.putString(URL_KEY, memeUrl);
         super.onSaveInstanceState(outState);
     }
 
@@ -73,7 +84,7 @@ public class GetMemeActivity extends AppCompatActivity {
      */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        memeUrl = savedInstanceState.getString("url");
+        memeUrl = savedInstanceState.getString(URL_KEY);
         Picasso.get().load(memeUrl).into(imgV_Meme);
         super.onRestoreInstanceState(savedInstanceState);
     }
@@ -96,8 +107,9 @@ public class GetMemeActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
                 response -> {
 
-                    randomMeme = (JsonObject) JsonParser.parseString(response);
-                    memeList = randomMeme.getAsJsonArray("memes");
+                    JsonObject randomMemes = (JsonObject) JsonParser.parseString(response);
+                    JsonArray jsonMemesArray = randomMemes.getAsJsonArray("memes");
+                    memeList = jsonArrayToMemeList(jsonMemesArray);
                     loadMeme();
 
                 }, error -> {
@@ -110,14 +122,36 @@ public class GetMemeActivity extends AppCompatActivity {
     }
 
     /**
+     * Converts a JsonArray into a RandomMeme ArrayList
+     * @param jsonArray
+     */
+    private ArrayList<RandomMeme> jsonArrayToMemeList(JsonArray jsonArray) {
+        ArrayList<RandomMeme> memeList = new ArrayList<>();
+
+        for(int i = 0; i < jsonArray.size(); i++) {
+            JsonObject jsonObject = ((JsonObject) jsonArray.get(i));
+            String postLink = jsonObject.get(POSTLINK_KEY).getAsString();
+            String subreddit = jsonObject.get(SUBREDDIT_KEY).getAsString();
+            String title = jsonObject.get(TITLE_KEY).getAsString();
+            String url = jsonObject.get(URL_KEY).getAsString();
+
+            // TODO for students
+            RandomMeme randomMeme = new RandomMeme(postLink, subreddit, title, url);
+
+            memeList.add(randomMeme);
+        }
+
+        return memeList;
+    }
+
+    /**
      * Removes the last meme object in the array and gets its url.
      *
      * @return url as a String
      */
     private String popMeme() {
-        JsonElement meme = memeList.remove(memeList.size() - 1);
-        JsonElement jsonUrl = ((JsonObject) meme).get("url");
-        return jsonUrl.getAsString();
+        RandomMeme meme = memeList.remove(memeList.size() - 1);
+        return meme.getUrl();
     }
 
     /**

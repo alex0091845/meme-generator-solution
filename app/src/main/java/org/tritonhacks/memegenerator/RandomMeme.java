@@ -7,6 +7,13 @@ public class RandomMeme {
     private String title;
     private String url;
 
+    public RandomMeme(String postLink, String subreddit, String title, String url) {
+        this.postLink = postLink;
+        this.subreddit = subreddit;
+        this.title = title;
+        this.url = url;
+    }
+
     public String getPostLink() {
         return postLink;
     }
