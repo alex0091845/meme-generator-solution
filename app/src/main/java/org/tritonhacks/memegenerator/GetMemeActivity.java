@@ -12,7 +12,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
@@ -21,13 +20,12 @@ import java.util.ArrayList;
 
 public class GetMemeActivity extends AppCompatActivity {
 
-    final static String URL = "https://meme-api.herokuapp.com/gimme/cleanmemes/100";
+    final static String URL = "https://meme-api.herokuapp.com/gimme/cleanmemes/50";
     final static String POSTLINK_KEY = "postLink";
     final static String SUBREDDIT_KEY = "subreddit";
     final static String TITLE_KEY = "title";
     final static String URL_KEY = "url";
 
-    private static JsonObject randomMeme;
     private ArrayList<RandomMeme> memeList;
     private String memeUrl;
 
@@ -94,7 +92,7 @@ public class GetMemeActivity extends AppCompatActivity {
      */
     private void loadMeme() {
         memeUrl = popMeme();
-        Picasso.get().load(memeUrl).into(imgV_Meme);
+        Picasso.get().load(memeUrl).into(this.imgV_Meme);
     }
 
     /**
@@ -103,13 +101,22 @@ public class GetMemeActivity extends AppCompatActivity {
     private void getRequest() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        // Request a string response the provided URL.
+        // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
                 response -> {
 
+                    // Gets 50 to 100 memes formatted as a json String and converts it into a
+                    // generic JsonObject
                     JsonObject randomMemes = (JsonObject) JsonParser.parseString(response);
+
+                    // Converts the JsonObject (randomMemes) into a JsonArray
                     JsonArray jsonMemesArray = randomMemes.getAsJsonArray("memes");
+
+                    // Turns the JsonArray (jsonMemesArray) into an ArrayList of RandomMeme objects
+                    // and store it inside memeList
                     memeList = jsonArrayToMemeList(jsonMemesArray);
+
+                    // load a meme from memeList
                     loadMeme();
 
                 }, error -> {
@@ -126,6 +133,7 @@ public class GetMemeActivity extends AppCompatActivity {
      * @param jsonArray
      */
     private ArrayList<RandomMeme> jsonArrayToMemeList(JsonArray jsonArray) {
+        // TODO for students
         ArrayList<RandomMeme> memeList = new ArrayList<>();
 
         for(int i = 0; i < jsonArray.size(); i++) {
