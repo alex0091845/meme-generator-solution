@@ -15,7 +15,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/app_name"
-                android:scaleType="fitXY" />
+                android:adjustViewBounds="true" />
 
         <EditText
                 android:id="@+id/editText1"
