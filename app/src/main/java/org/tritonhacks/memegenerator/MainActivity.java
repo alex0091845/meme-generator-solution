@@ -8,6 +8,9 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+    Button getMeme;
+    Button createMeme;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,10 +29,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        final Button getMeme = findViewById(R.id.btn_get_a_meme);
+        this.getMeme = findViewById(R.id.btn_get_a_meme);
         getMeme.setOnClickListener(v -> onGetMemeClicked());
 
-        final Button createMeme = findViewById(R.id.btn_create_a_meme);
+        this.createMeme = findViewById(R.id.btn_create_a_meme);
         createMeme.setOnClickListener(v -> onCreateMemeClicked());
     }
 }

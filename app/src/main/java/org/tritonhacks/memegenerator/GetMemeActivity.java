@@ -113,8 +113,8 @@ public class GetMemeActivity extends AppCompatActivity {
                     JsonArray jsonMemesArray = randomMemes.getAsJsonArray("memes");
 
                     // Turns the JsonArray (jsonMemesArray) into an ArrayList of RandomMeme objects
-                    // and store it inside memeList
-                    memeList = jsonArrayToMemeList(jsonMemesArray);
+                    // and store it inside this.memeList, which contains RandomMeme objects
+                    this.memeList = jsonArrayToMemeList(jsonMemesArray);
 
                     // load a meme from memeList
                     loadMeme();
