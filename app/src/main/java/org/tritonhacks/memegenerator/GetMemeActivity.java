@@ -49,9 +49,9 @@ public class GetMemeActivity extends AppCompatActivity {
      */
     private void initViews() {
         this.btnGetAnotherMeme = findViewById(R.id.btn_get_another_meme);
-        this.getAnotherMeme.setOnClickListener(v -> getMeme());
+        this.btnGetAnotherMeme.setOnClickListener(v -> getMeme());
 
-        this.imgVMeme = findViewById(R.id.imgVMeme);
+        this.imgVMeme = findViewById(R.id.imgV_meme);
     }
 
     /**
