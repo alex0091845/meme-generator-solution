@@ -30,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void initViews() {
         this.getMeme = findViewById(R.id.btn_get_a_meme);
-        getMeme.setOnClickListener(v -> onGetMemeClicked());
+        this.getMeme.setOnClickListener(v -> onGetMemeClicked());
 
         this.createMeme = findViewById(R.id.btn_create_a_meme);
-        createMeme.setOnClickListener(v -> onCreateMemeClicked());
+        this.createMeme.setOnClickListener(v -> onCreateMemeClicked());
     }
 }

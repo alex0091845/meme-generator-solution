@@ -15,7 +15,7 @@ public class RandomMeme {
     }
 
     public String getPostLink() {
-        return postLink;
+        return this.postLink;
     }
 
     public void setPostLink(String postLink) {
@@ -23,7 +23,7 @@ public class RandomMeme {
     }
 
     public String getSubreddit() {
-        return subreddit;
+        return this.subreddit;
     }
 
     public void setSubreddit(String subreddit) {
@@ -31,7 +31,7 @@ public class RandomMeme {
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public void setTitle(String title) {
@@ -39,7 +39,7 @@ public class RandomMeme {
     }
 
     public String getUrl() {
-        return url;
+        return this.url;
     }
 
     public void setUrl(String url) {

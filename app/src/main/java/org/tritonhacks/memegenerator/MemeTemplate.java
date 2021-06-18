@@ -2,9 +2,9 @@ package org.tritonhacks.memegenerator;
 
 class MemeTemplate {
 
-    private final String id;
-    private final String url;
-    private final int boxCount;
+    private String id;
+    private String url;
+    private int boxCount;
 
     MemeTemplate(final String id, final String url, final int boxCount) {
         this.id = id;
@@ -13,14 +13,27 @@ class MemeTemplate {
     }
 
     String getId() {
-        return id;
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     String getUrl() {
-        return url;
+        return this.url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     int getBoxCount() {
-        return boxCount;
+        return this.boxCount;
     }
+
+    public void setBoxCount(int boxCount) {
+        this.boxCount = boxCount;
+    }
+
 }

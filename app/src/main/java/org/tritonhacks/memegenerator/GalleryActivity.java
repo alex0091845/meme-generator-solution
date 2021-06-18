@@ -32,10 +32,10 @@ public class GalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
-        imageView = findViewById(R.id.imageView);
-        recyclerView = findViewById(R.id.recyclerView);
-        gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        this.imageView = findViewById(R.id.imageView);
+        this.recyclerView = findViewById(R.id.recyclerView);
+        this.gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        this.recyclerView.setLayoutManager(gridLayoutManager);
 
         // Create GET request for meme templates
         final String getMemeTemplatesApiUrl = "https://api.imgflip.com/get_memes";
@@ -47,13 +47,13 @@ public class GalleryActivity extends AppCompatActivity {
                             .getAsJsonArray("memes");
 
                     // Populate list of meme templates from JSON array
-                    templates.ensureCapacity(templatesArr.size());
+                    this.templates.ensureCapacity(templatesArr.size());
                     for (final JsonElement templateElem : templatesArr) {
                         final JsonObject templateObj = templateElem.getAsJsonObject();
                         final String id = templateObj.get("id").getAsString();
                         final String url = templateObj.get("url").getAsString();
                         final int boxCount = templateObj.get("box_count").getAsInt();
-                        templates.add(new MemeTemplate(id, url, boxCount));
+                        this.templates.add(new MemeTemplate(id, url, boxCount));
                     }
 
                     // Populate recycler view with list of meme templates

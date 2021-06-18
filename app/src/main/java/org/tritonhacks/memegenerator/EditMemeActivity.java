@@ -39,7 +39,7 @@ public class EditMemeActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meme_layout);
-        requestQueue = Volley.newRequestQueue(this);
+        this.requestQueue = Volley.newRequestQueue(this);
         initViews();
 
         String templateId = getIntent().getStringExtra("id");
@@ -54,10 +54,10 @@ public class EditMemeActivity extends AppCompatActivity {
         });
 
         // Set visibility of text views
-        for (int i = 0; i < boxCount; i++) editTexts[i].setVisibility(View.VISIBLE);
+        for (int i = 0; i < boxCount; i++) this.editTexts[i].setVisibility(View.VISIBLE);
 
         // loads meme image into the imageView
-        Picasso.get().load(imageUrl).into(imageView);
+        Picasso.get().load(imageUrl).into(this.imageView);
     }
 
     private void fetchCustomMeme(String templateId, int boxCount) {
@@ -75,7 +75,7 @@ public class EditMemeActivity extends AppCompatActivity {
                             .getAsString();
 
                     // Show custom meme
-                    Picasso.get().load(customMemeUrl).into(imageView);
+                    Picasso.get().load(customMemeUrl).into(this.imageView);
                 },
                 error -> Log.e("Volley request error", String.valueOf(error))) {
 
@@ -87,7 +87,7 @@ public class EditMemeActivity extends AppCompatActivity {
         };
 
         // Schedule POST request for custom meme
-        requestQueue.add(r);
+        this.requestQueue.add(r);
     }
 
     private String buildRequestBody(String templateId, int boxCount) {
@@ -102,7 +102,7 @@ public class EditMemeActivity extends AppCompatActivity {
         requestBody.append("template_id=").append(templateId);
         requestBody.append("&");
         for (int i = 0; i < boxCount; i++) {
-            final String text = editTexts[i].getText().toString();
+            final String text = this.editTexts[i].getText().toString();
             requestBody.append(String.format(Locale.US, "boxes[%d][text]=%s", i, text));
             requestBody.append("&");
         }
@@ -111,13 +111,14 @@ public class EditMemeActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        imageView = findViewById(R.id.imageView1);
-        createBtn = findViewById(R.id.create_meme);
-        editText1 = findViewById(R.id.editText1);
-        editText2 = findViewById(R.id.editText2);
-        editText3 = findViewById(R.id.editText3);
-        editText4 = findViewById(R.id.editText4);
-        editText5 = findViewById(R.id.editText5);
-        editTexts = new EditText[]{editText1, editText2, editText3, editText4, editText5};
+        this.imageView = findViewById(R.id.imageView1);
+        this.createBtn = findViewById(R.id.create_meme);
+        this.editText1 = findViewById(R.id.editText1);
+        this.editText2 = findViewById(R.id.editText2);
+        this.editText3 = findViewById(R.id.editText3);
+        this.editText4 = findViewById(R.id.editText4);
+        this.editText5 = findViewById(R.id.editText5);
+        this.editTexts = new EditText[]{this.editText1, this.editText2, this.editText3,
+            this.editText4, this.editText5};
     }
 }

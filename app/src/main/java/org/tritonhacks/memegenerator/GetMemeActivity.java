@@ -29,7 +29,8 @@ public class GetMemeActivity extends AppCompatActivity {
     private ArrayList<RandomMeme> memeList;
     private String memeUrl;
 
-    private ImageView imgV_Meme;
+    private ImageView imgVMeme;
+    private Button btnGetAnotherMeme;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -47,10 +48,10 @@ public class GetMemeActivity extends AppCompatActivity {
      * Initializes all necessary views.
      */
     private void initViews() {
-        final Button getAnotherMeme = findViewById(R.id.btn_get_another_meme);
-        getAnotherMeme.setOnClickListener(v -> getMeme());
+        this.btnGetAnotherMeme = findViewById(R.id.btn_get_another_meme);
+        this.getAnotherMeme.setOnClickListener(v -> getMeme());
 
-        imgV_Meme = findViewById(R.id.imgV_meme);
+        this.imgVMeme = findViewById(R.id.imgVMeme);
     }
 
     /**
@@ -71,7 +72,7 @@ public class GetMemeActivity extends AppCompatActivity {
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putString(URL_KEY, memeUrl);
+        outState.putString(URL_KEY, this.memeUrl);
         super.onSaveInstanceState(outState);
     }
 
@@ -82,8 +83,8 @@ public class GetMemeActivity extends AppCompatActivity {
      */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        memeUrl = savedInstanceState.getString(URL_KEY);
-        Picasso.get().load(memeUrl).into(imgV_Meme);
+        this.memeUrl = savedInstanceState.getString(URL_KEY);
+        Picasso.get().load(this.memeUrl).into(this.imgVMeme);
         super.onRestoreInstanceState(savedInstanceState);
     }
 
@@ -91,8 +92,8 @@ public class GetMemeActivity extends AppCompatActivity {
      * Helper method to load the meme image onto ImageView
      */
     private void loadMeme() {
-        memeUrl = popMeme();
-        Picasso.get().load(memeUrl).into(this.imgV_Meme);
+        this.memeUrl = popMeme();
+        Picasso.get().load(this.memeUrl).into(this.imgVMeme);
     }
 
     /**
@@ -134,7 +135,7 @@ public class GetMemeActivity extends AppCompatActivity {
      */
     private ArrayList<RandomMeme> jsonArrayToMemeList(JsonArray jsonArray) {
         // TODO for students
-        ArrayList<RandomMeme> memeList = new ArrayList<>();
+        ArrayList<RandomMeme> randomMemeList = new ArrayList<>();
 
         for(int i = 0; i < jsonArray.size(); i++) {
             JsonObject jsonObject = ((JsonObject) jsonArray.get(i));
@@ -146,10 +147,10 @@ public class GetMemeActivity extends AppCompatActivity {
             // TODO for students
             RandomMeme randomMeme = new RandomMeme(postLink, subreddit, title, url);
 
-            memeList.add(randomMeme);
+            randomMemeList.add(randomMeme);
         }
 
-        return memeList;
+        return randomMemeList;
     }
 
     /**
@@ -158,7 +159,7 @@ public class GetMemeActivity extends AppCompatActivity {
      * @return url as a String
      */
     private String popMeme() {
-        RandomMeme meme = memeList.remove(memeList.size() - 1);
+        RandomMeme meme = this.memeList.remove(this.memeList.size() - 1);
         return meme.getUrl();
     }
 
@@ -168,6 +169,6 @@ public class GetMemeActivity extends AppCompatActivity {
      * @return true if memeList is empty, false otherwise
      */
     private boolean isMemeListEmpty() {
-        return memeList == null || memeList.size() == 0;
+        return this.memeList == null || this.memeList.size() == 0;
     }
 }
